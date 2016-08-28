@@ -115,12 +115,16 @@
 
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
-	//焦点图
+//焦点图
 $(function () {
     var len = 4;
     var currentIndex = 1;
     var sliding = false;
     var timer;
+
+    var list = $('.list');
+    var next = $('#next');
+    var prev = $('#prev');
 
     play();
 
@@ -130,7 +134,7 @@ $(function () {
         play();
     });
 
-    $('#next').click(function () {
+    next.click(function () {
         if (!sliding) {
             if (currentIndex >= len) {
                 currentIndex = 1;
@@ -143,7 +147,7 @@ $(function () {
 
 
     });
-    $('#prev').click(function () {
+    prev.click(function () {
         if (!sliding) {
             if (currentIndex <= 1) {
                 currentIndex = len;
@@ -158,9 +162,7 @@ $(function () {
     $('.buttons span').click(function () {
         if (!sliding) {
             var myIndex = $(this).index() + 1;
-            // alert("myIndex:" + myIndex + ";currentIndex:" + currentIndex);
             var offset = myIndex - currentIndex;
-            // $('.list').css('left', parseInt($('.list').css('left')) + offset * (-810) + 'px');
 
             switchingCurrentItem(offset * (-810));
             currentIndex = myIndex;
@@ -171,14 +173,14 @@ $(function () {
     function switchingCurrentItem(offset) {
         sliding = true;
 
-        var newLeft = parseInt($('.list').css('left')) + offset;
+        var newLeft = parseInt(list.css('left')) + offset;
         var time = 200;//位移总时间
         var interval = 5;//位移间隔时间
         var speed = offset / (time / interval);
 
         function slide() {
-            if ((offset < 0 && parseInt($('.list').css('left')) > newLeft) || (offset > 0 && parseInt($('.list').css('left')) < newLeft)) {
-                $('.list').css('left', parseInt($('.list').css('left')) + speed + 'px');
+            if ((offset < 0 && parseInt(list.css('left')) > newLeft) || (offset > 0 && parseInt(list.css('left')) < newLeft)) {
+                list.css('left', parseInt(list.css('left')) + speed + 'px');
                 setTimeout(slide, interval);
             } else {
 
@@ -187,7 +189,7 @@ $(function () {
                 } else if (newLeft > -810) {
                     newLeft = len * (-810);
                 }
-                $('.list').css('left', newLeft + 'px');
+                list.css('left', newLeft + 'px');
                 sliding = false;
 
             }
@@ -209,7 +211,7 @@ $(function () {
 
     function play() {
         timer = setInterval(function () {
-            $('#next').click();
+            next.click();
         }, 3000);
     }
 
@@ -217,6 +219,7 @@ $(function () {
         clearInterval(timer);
     }
 });
+
 </script>
 </body>
 </html>
